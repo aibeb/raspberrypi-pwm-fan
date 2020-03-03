@@ -1,6 +1,6 @@
 #!/bin/sh
 ### BEGIN INIT INFO
-# Provides:          cpu-fan
+# Provides:          pwm-fan
 # Required-Start:    $all
 # Required-Stop:     $all
 # Default-Start:     2 3 4 5
@@ -10,12 +10,11 @@
  
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 
-NAME=cpu-fan
-USER=ubuntu
+NAME=pwm-fan
 DAEMON=/usr/bin/$NAME
 PIDFILE=/var/run/$NAME.pid
-CONF=/home/$USER/.cpu-fan.conf
-LOG=/var/log/cpu-fan/cpu-fan.log
+CONF=/etc/pwm-fan/pwm-fan.conf
+LOG=/var/log/pwm-fan/pwm-fan.log
 
 if [ ! -e "$CONF" ]  ; then
 touch $CONF
@@ -33,32 +32,32 @@ test -f $DAEMON || exit 0
 case "$1" in
 
 start)
-log_daemon_msg "Starting cpu-fan" "cpu-fan"
-start-stop-daemon -S -q -b -m -p $PIDFILE -c $USER -a $DAEMON -- $ARGS
+log_daemon_msg "Starting pwm-fan" "pwm-fan"
+start-stop-daemon -S -q -b -m -p $PIDFILE -a $DAEMON -- $ARGS
 log_end_msg $?
-echo "`date` cpu-fan服务启动" >> $LOG
+echo "`date` pwm-fan服务启动" >> $LOG
 ;;
 
-stop) log_daemon_msg "Stopping cpu-fan" "cpu-fan"
+stop) log_daemon_msg "Stopping pwm-fan" "pwm-fan"
 start-stop-daemon -K -q -p $PIDFILE
 log_end_msg $?
-echo "`date` cpu-fan服务停止" >> $LOG
+echo "`date` pwm-fan服务停止" >> $LOG
 ;;
 
 restart|reload|force-reload)
-log_daemon_msg "Restarting cpu-fan" "cpu-fan"
+log_daemon_msg "Restarting pwm-fan" "pwm-fan"
 start-stop-daemon -K -R 5 -q -p $PIDFILE
-start-stop-daemon -S -q -b -m -p $PIDFILE -c $USER -a $DAEMON -- $ARGS
+start-stop-daemon -S -q -b -m -p $PIDFILE -a $DAEMON -- $ARGS
 log_end_msg $?
-echo "`date` cpu-fan服务重启" >> $LOG
+echo "`date` pwm-fan服务重启" >> $LOG
 ;;
 
 status)
-status_of_proc -p $PIDFILE $DAEMON cpu-fan && exit 0 || exit $?
+status_of_proc -p $PIDFILE $DAEMON pwm-fan && exit 0 || exit $?
 ;;
 
 *)
-echo "Usage： /etc/init.d/cpu-fan {start|stop|restart|reload|force-reload|status}"
+echo "Usage： /etc/init.d/pwm-fan {start|stop|restart|reload|force-reload|status}"
 exit 2
 ;;
 

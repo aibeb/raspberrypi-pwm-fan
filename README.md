@@ -1,5 +1,29 @@
-# RaspberryPi_CPU_PWM
-Raspberry Pi using software PWM to control the CPU fan speed.  
-使用软件PWM控制树莓派CPU风扇转速。
+# Connect the fan according to the schematic
+![](diagram.png)
 
-#[使用方法](https://github.com/tankririri/RaspberryPi_CPU_PWM/wiki/%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95)
+# config raspberrypi
+add to config.txt
+```
+dtoverlay=pwm
+
+dtoverlay=pwm-2chan
+```
+then
+
+```
+reboot
+```
+
+# install
+```
+sh install.sh
+```
+
+```
+sudo systemctl status pwm-fan
+```
+
+# uninstall
+```
+sh uninstall.sh
+```

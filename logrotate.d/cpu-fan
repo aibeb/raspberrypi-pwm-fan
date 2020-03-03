@@ -1,4 +1,4 @@
-/var/log/cpu-fan/cpu-fan.log {
+/var/log/pwm-fan/pwm-fan.log {
   su root
   rotate 7
   daily
