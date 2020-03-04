@@ -20,9 +20,9 @@ if [ ! -e "$CONF" ]  ; then
 touch $CONF
 chmod 666 $CONF
 echo "MODE=2" > $CONF
-echo "set_temp_min=35000" >> $CONF
-echo "shutdown_temp=34000" >> $CONF
-echo "set_temp_max=70000" >> $CONF
+echo "set_temp_min=55000" >> $CONF
+echo "shutdown_temp=50000" >> $CONF
+echo "set_temp_max=60000" >> $CONF
 fi
 
 ARGS="${CONF} ${LOG}"

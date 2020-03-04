@@ -5,7 +5,7 @@ PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
 if [ -n "$1" ] ;then
 CONF=$1
 else
-CONF=/home/pi/.pwm-fan.conf
+CONF=/etc/pwm-fan/pwm-fan.conf
 fi
 if [  -n "$2" ] ;then
 LOG=$2
@@ -13,11 +13,12 @@ else
 LOG=/var/log/pwm-fan/pwm-fan.log
 fi
 
-sudo sh -c "echo 10000000 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle"
+sudo sh -c "echo 0 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle"
 
 fan=0
 
 while true
+  
   do
   tmp=`cat /sys/class/thermal/thermal_zone0/temp`
   load=`cat /proc/loadavg | awk '{print $1}'`
@@ -44,6 +45,8 @@ while true
   done < $CONF
   
   pwm=$(10000000-($set_temp_max-$tmp)*($set_temp_max-$set_temp_min)/(10000000-5000000))
+
+  echo "`date` temp=$tmp pwm=$pwm MODE=$MODE CPU load=$load" >> $LOG
  
 if [ $fan -eq 0 ] ;then
   pwm=0
