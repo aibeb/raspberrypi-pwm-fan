@@ -1,10 +1,3 @@
-sudo sh -c "echo 0 > /sys/class/pwm/pwmchip0/export"
-
-sudo sh -c "echo 10000000 > /sys/class/pwm/pwmchip0/pwm0/period"
-sudo sh -c "echo 0 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle"
-
-sudo sh -c "echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable"
-
 sudo cp -f pwm-fan.sh /usr/bin/pwm-fan
 sudo chmod 755 /usr/bin/pwm-fan
 sudo cp -f ./init.d/pwm-fan /etc/init.d/pwm-fan
