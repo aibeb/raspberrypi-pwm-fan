@@ -1,4 +1,4 @@
-sudo cp -f pwm-fan /usr/bin/pwm-fan
+sudo cp -f $(arch)/pwm-fan /usr/bin/pwm-fan
 sudo chmod 755 /usr/bin/pwm-fan
 sudo cp -f ./init.d/pwm-fan /etc/init.d/pwm-fan
 sudo chmod 755 /etc/init.d/pwm-fan
