@@ -2,7 +2,7 @@ support raspberrypi 4 vie ubuntu or raspbian
 support raspberrypi 3b+ vie ubuntu or raspbian
 
 # Connect the fan according to the schematic
-![](diagram.png)
+![](schematic.png)
 
 ![](GPIO.png)
 
