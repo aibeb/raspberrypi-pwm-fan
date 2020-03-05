@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 	"os/exec"
 	"strconv"
 	"strings"
@@ -16,14 +17,16 @@ var tempMax = tempMin + 10000     // 70
 var tempShutDown = tempMin - 5000 // 50
 
 func main() {
-	fmt.Println("sudo sh -c \"echo 0 > /sys/class/pwm/pwmchip0/export\"")
-	_, err := exec.Command("sudo", "sh", "-c", "echo 0 > /sys/class/pwm/pwmchip0/export").Output()
-	if err != nil {
-		log.Println(err)
+	if _, err := os.Stat("/sys/class/pwm/pwmchip0/pwm0"); os.IsNotExist(err) {
+		fmt.Println("sudo sh -c \"echo 0 > /sys/class/pwm/pwmchip0/export\"")
+		_, err := exec.Command("sudo", "sh", "-c", "echo 0 > /sys/class/pwm/pwmchip0/export").Output()
+		if err != nil {
+			log.Println(err)
+		}
 	}
 
 	fmt.Println("sudo sh -c \"echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable\"")
-	_, err = exec.Command("sudo", "sh", "-c", "echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable").Output()
+	_, err := exec.Command("sudo", "sh", "-c", "echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable").Output()
 	if err != nil {
 		log.Println(err)
 	}
