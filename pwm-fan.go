@@ -31,10 +31,16 @@ func main() {
 		log.Fatal(err)
 	}
 
+	fmt.Println("sudo sh -c \"echo 0 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle\"")
+	_, err = exec.Command("sudo", "sh", "-c", "echo 0 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle").Output()
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	fmt.Println("sudo sh -c \"echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable\"")
 	_, err = exec.Command("sudo", "sh", "-c", "echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable").Output()
 	if err != nil {
-		log.Println(err)
+		log.Fatal(err)
 	}
 
 	for {
