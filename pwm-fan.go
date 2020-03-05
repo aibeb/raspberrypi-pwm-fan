@@ -25,16 +25,16 @@ func main() {
 		}
 	}
 
-	fmt.Println("sudo sh -c \"echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable\"")
-	_, err := exec.Command("sudo", "sh", "-c", "echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable").Output()
-	if err != nil {
-		log.Println(err)
-	}
-
 	fmt.Println("sudo sh -c \"echo " + strconv.FormatUint(maxDutyCycle, 10) + " > /sys/class/pwm/pwmchip0/pwm0/period\"")
-	_, err = exec.Command("sudo", "sh", "-c", "echo "+strconv.FormatUint(maxDutyCycle, 10)+" > /sys/class/pwm/pwmchip0/pwm0/period").Output()
+	_, err := exec.Command("sudo", "sh", "-c", "echo "+strconv.FormatUint(maxDutyCycle, 10)+" > /sys/class/pwm/pwmchip0/pwm0/period").Output()
 	if err != nil {
 		log.Fatal(err)
+	}
+
+	fmt.Println("sudo sh -c \"echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable\"")
+	_, err = exec.Command("sudo", "sh", "-c", "echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable").Output()
+	if err != nil {
+		log.Println(err)
 	}
 
 	for {
