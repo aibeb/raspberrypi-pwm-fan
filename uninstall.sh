@@ -7,3 +7,5 @@ sudo rm -f /var/log/pwm-fan/pwm-fan.log
 sudo rm -f -r /var/log/pwm-fan
 sudo rm -rf /etc/pwm-fan
 sudo systemctl daemon-reload
+
+sudo sh -c "echo 0 > /sys/class/pwm/pwmchip0/unexport"
