@@ -10,13 +10,15 @@ import (
 	"time"
 )
 
-var tempMin = uint64(55000)
+var tempMin = uint64(50000)
 var maxDutyCycle = uint64(10000000)
-var minDutyCycle = uint64(7000000)
-var tempMax = tempMin + 10000     // 70
-var tempShutDown = tempMin - 5000 // 50
+var minDutyCycle = uint64(8000000)
+var tempMax = tempMin + 10000     // 60
+var tempShutDown = tempMin - 5000 // 45
 
 func main() {
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
+
 	if _, err := os.Stat("/sys/class/pwm/pwmchip0/pwm0"); os.IsNotExist(err) {
 		fmt.Println("sudo sh -c \"echo 0 > /sys/class/pwm/pwmchip0/export\"")
 		_, err := exec.Command("sudo", "sh", "-c", "echo 0 > /sys/class/pwm/pwmchip0/export").Output()

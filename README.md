@@ -39,3 +39,18 @@ sudo systemctl status pwm-fan
 ```
 sh uninstall.sh
 ```
+
+# default config
+start fan at 50 on 80%  duty_cycle
+stop  fan at 45
+start fan at 60 on 100% duty_cycle
+
+# check temperature
+```
+cat /sys/class/thermal/thermal_zone0/temp
+```
+
+# check duty_cycle
+```
+cat /sys/class/pwm/pwmchip0/pwm0/duty_cycle
+```
