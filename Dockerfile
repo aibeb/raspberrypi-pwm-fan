@@ -17,11 +17,6 @@ COPY --from=build /go/src/github.com/aibeb/raspberrypi-pwm-fan/main /app/main
 
 RUN sed -i "s/http:\/\/ports.ubuntu.com/http:\/\/mirrors.tuna.tsinghua.edu.cn/g" /etc/apt/sources.list
 
-RUN apt-get update && \
-      apt-get -y install sudo
-
-RUN useradd -m docker && echo "docker:docker" | chpasswd && adduser docker sudo
-
-USER docker
+RUN timedatectl set-timezone Asia/Shanghai
 
 CMD ["/app/main"]
