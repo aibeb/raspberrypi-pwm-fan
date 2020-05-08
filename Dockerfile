@@ -1,25 +1,17 @@
-FROM golang:1.13.4-alpine AS build
+FROM arm64v8/golang:1.13-alpine AS build
 
-ENV GOGIT_DIR /go/src/github.com/aibeb/gogit
-ENV DOCKER_BUILDTAGS gogit
+WORKDIR /go/src/github.com/aibeb/raspberrypi-pwm-fan
 
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
-
-RUN set -ex \
-    && apk add --no-cache make git file
-
-WORKDIR $GOGIT_DIR
-
-COPY go.mod $GOGIT_DIR
+COPY go.mod .
 
 RUN go mod download
 
-COPY main.go $GOGIT_DIR
+COPY pwm-fan.go .
 
-RUN go build -o gogit main.go
+RUN go build -o main pwm-fan.go
 
 
-FROM alpine
+FROM arm64v8/alpine
 
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
 
@@ -29,18 +21,8 @@ RUN apk add --no-cache tzdata\
     && apk del tzdata \
     && rm -rf /var/cache/apk/*
 
-RUN set -ex \
-    && apk add --no-cache ca-certificates apache2-utils git
+RUN apk add sudo
 
-RUN git config --global user.email "gogit@aibeb.com"
-RUN git config --global user.name "GoGit"
+COPY --from=build /go/src/github.com/aibeb/raspberrypi-pwm-fan/main /app/main
 
-COPY --from=build /go/src/github.com/aibeb/gogit/gogit /bin/gogit
-
-VOLUME ["/var/lib/gogit"]
-
-EXPOSE 1024
-
-ENTRYPOINT ["gogit"]
-
-CMD [""]
+CMD ["/app/main"]
