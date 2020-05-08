@@ -17,6 +17,4 @@ COPY --from=build /go/src/github.com/aibeb/raspberrypi-pwm-fan/main /app/main
 
 RUN sed -i "s/http:\/\/ports.ubuntu.com/http:\/\/mirrors.tuna.tsinghua.edu.cn/g" /etc/apt/sources.list
 
-RUN timedatectl set-timezone Asia/Shanghai
-
 CMD ["/app/main"]
