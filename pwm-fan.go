@@ -20,33 +20,33 @@ func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
 	if _, err := os.Stat("/sys/class/pwm/pwmchip0/pwm0"); os.IsNotExist(err) {
-		fmt.Println("echo 0 > /sys/class/pwm/pwmchip0/export")
-		_, err := exec.Command("echo 0 > /sys/class/pwm/pwmchip0/export").Output()
+		fmt.Println("sh -c \"echo 0 > /sys/class/pwm/pwmchip0/export\"")
+		_, err := exec.Command("sh", "-c", "echo 0 > /sys/class/pwm/pwmchip0/export").Output()
 		if err != nil {
 			log.Println(err)
 		}
 	}
 
-	fmt.Println("echo " + strconv.FormatUint(maxDutyCycle, 10) + " > /sys/class/pwm/pwmchip0/pwm0/period")
-	_, err := exec.Command("echo " + strconv.FormatUint(maxDutyCycle, 10) + " > /sys/class/pwm/pwmchip0/pwm0/period").Output()
+	fmt.Println("sh -c \"echo " + strconv.FormatUint(maxDutyCycle, 10) + " > /sys/class/pwm/pwmchip0/pwm0/period\"")
+	_, err := exec.Command("sh", "-c", "echo "+strconv.FormatUint(maxDutyCycle, 10)+" > /sys/class/pwm/pwmchip0/pwm0/period").Output()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println("echo 0 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle")
-	_, err = exec.Command("echo 0 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle").Output()
+	fmt.Println("sh -c \"echo 0 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle\"")
+	_, err = exec.Command("sh", "-c", "echo 0 > /sys/class/pwm/pwmchip0/pwm0/duty_cycle").Output()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println("echo 0 > /sys/class/pwm/pwmchip0/pwm0/enable")
-	_, err = exec.Command("echo 0 > /sys/class/pwm/pwmchip0/pwm0/enable").Output()
+	fmt.Println("sh -c \"echo 0 > /sys/class/pwm/pwmchip0/pwm0/enable\"")
+	_, err = exec.Command("sh", "-c", "echo 0 > /sys/class/pwm/pwmchip0/pwm0/enable").Output()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	fmt.Println("echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable")
-	_, err = exec.Command("echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable").Output()
+	fmt.Println("sh -c \"echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable\"")
+	_, err = exec.Command("sh", "-c", "echo 1 > /sys/class/pwm/pwmchip0/pwm0/enable").Output()
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -85,7 +85,7 @@ func main() {
 		}
 		fmt.Printf("temp=%d, tempMin=%d,tempMax=%d, tempShutDown=%d, tempDutyCycle=%s\n", temp, tempMin, tempMax, tempShutDown, strconv.FormatUint(tempDutyCycle, 10))
 
-		_, err = exec.Command("echo " + strconv.FormatUint(tempDutyCycle, 10) + " > /sys/class/pwm/pwmchip0/pwm0/duty_cycle").Output()
+		_, err = exec.Command("sh", "-c", "echo "+strconv.FormatUint(tempDutyCycle, 10)+" > /sys/class/pwm/pwmchip0/pwm0/duty_cycle").Output()
 		if err != nil {
 			log.Println(err)
 		}
