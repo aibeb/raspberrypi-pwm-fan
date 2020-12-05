@@ -28,16 +28,11 @@ sudo sh -c "echo 0 > /sys/class/pwm/pwmchip0/export"
 # install
 
 ```
-sh install.sh
-```
-
-```
-sudo systemctl status pwm-fan
-```
-
-# uninstall
-```
-sh uninstall.sh
+docker run \
+  --log-driver json-file \
+  --log-opt max-size=10m \
+  -d \
+  hellobit/raspberrypi-pwm-fan
 ```
 
 # default config

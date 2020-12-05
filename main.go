@@ -10,11 +10,13 @@ import (
 	"time"
 )
 
-var tempMin = uint64(50000)
-var maxDutyCycle = uint64(10000000)
-var minDutyCycle = uint64(7000000)
-var tempMax = tempMin + 10000     // 60
-var tempShutDown = tempMin - 5000 // 45
+const (
+	tempMin      = uint64(50000)
+	maxDutyCycle = uint64(10000000)
+	minDutyCycle = uint64(7000000)
+	tempMax      = tempMin + 10000 // 60
+	tempShutDown = tempMin - 5000  // 45
+)
 
 func main() {
 	log.SetFlags(log.LstdFlags | log.Lshortfile)

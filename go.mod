@@ -1,3 +1,3 @@
-module pwm-fan/v1
+module aibeb.com/raspberrypi-pwm-fan
 
-go 1.14
+go 1.15

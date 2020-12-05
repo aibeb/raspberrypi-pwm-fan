@@ -1,20 +1,46 @@
-FROM arm64v8/golang:1.13-alpine AS build
+FROM golang:1.15-alpine AS build
 
-WORKDIR /go/src/github.com/aibeb/raspberrypi-pwm-fan
+RUN echo "I am running on $BUILDPLATFORM, building for $TARGETPLATFORM" > /log
+
+
+ENV APP_PATH /app
+
+WORKDIR $APP_PATH
 
 COPY go.mod .
 
-RUN go mod download
+RUN go env -w GO111MODULE=auto
 
-COPY pwm-fan.go .
+# RUN go env -w GOPROXY=https://mirrors.aliyun.com/goproxy/
+# RUN go env -w GOPROXY=https://goproxy.cn,direct
 
-RUN go build -o main pwm-fan.go
+# RUN go env -w GOPRIVATE=*.github.com
 
+RUN go mod download -x
 
-FROM arm64v8/ubuntu
+COPY . .
 
-COPY --from=build /go/src/github.com/aibeb/raspberrypi-pwm-fan/main /app/main
+RUN go build -o main .
 
-RUN sed -i "s/http:\/\/ports.ubuntu.com/http:\/\/mirrors.tuna.tsinghua.edu.cn/g" /etc/apt/sources.list
+## ------------------------
+FROM alpine
+
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apk/repositories
+
+RUN apk add --no-cache tzdata\
+    && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+    && echo "Asia/Shanghai" > /etc/timezone \
+    && apk del tzdata \
+    && rm -rf /var/cache/apk/*
+
+RUN set -ex \
+    && apk add --no-cache ca-certificates
+
+ENV GRPC_GO_LOG_SEVERITY_LEVEL="WARNING" \
+    GRPC_GO_LOG_VERBOSITY_LEVEL="WARNING"
+
+WORKDIR /app
+
+COPY --from=build /app/main .
 
 CMD ["/app/main"]
