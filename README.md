@@ -29,6 +29,7 @@ sudo sh -c "echo 0 > /sys/class/pwm/pwmchip0/export"
 
 ```
 docker run \
+  --privileged \
   --log-driver json-file \
   --log-opt max-size=10m \
   -d \
